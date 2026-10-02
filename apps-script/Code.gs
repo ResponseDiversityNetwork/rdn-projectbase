@@ -87,9 +87,10 @@ var ITEMS = [
   { key: 'orcid', type: 'text', title: 'ORCID iD', help: 'e.g. 0000-0002-1825-0097' },
 
   { key: '_section_project', type: 'section', title: 'The project' },
-  { key: 'title', type: 'text', title: 'Project title', required: true },
+  { key: 'title', type: 'text', title: 'Project title', required: true, minLength: 3, maxLength: 250 },
   { key: 'summary', type: 'paragraph', title: 'Short summary', required: true,
-    help: 'About 100-200 words: question, approach, and what you hope to produce.' },
+    help: 'About 100-200 words: question, approach, and what you hope to produce.',
+    minLength: 20, maxLength: 3000 },
   { key: 'response_diversity', type: 'checkbox', title: 'Which aspects of response diversity?',
     choices: FORM_CHOICES.response_diversity },
   { key: 'organisms', type: 'checkbox', title: 'Organisms', choices: FORM_CHOICES.organisms },
@@ -154,6 +155,18 @@ function setup() {
       case 'checkbox': item = form.addCheckboxItem().setChoiceValues(it.choices); break;
       case 'list': item = form.addListItem().setChoiceValues(it.choices); break;
       case 'multiple': item = form.addMultipleChoiceItem().setChoiceValues(it.choices); break;
+    }
+    // Length limits mirror schema/project.schema.json so the form can't produce invalid files.
+    if (it.minLength && (it.type === 'text' || it.type === 'paragraph')) {
+      var msg = 'Please enter between ' + it.minLength + ' and ' + it.maxLength + ' characters.';
+      var v = it.type === 'text' ? FormApp.createTextValidation() : FormApp.createParagraphTextValidation();
+      if (it.type === 'paragraph') {
+        v.requireTextLengthGreaterThanOrEqualTo(it.minLength).setHelpText(msg);
+        item.setValidation(v.build());
+      } else {
+        v.requireTextMatchesPattern('^[\\s\\S]{' + it.minLength + ',' + it.maxLength + '}$').setHelpText(msg);
+        item.setValidation(v.build());
+      }
     }
     item.setTitle(it.title);
     if (it.help) item.setHelpText(it.help);

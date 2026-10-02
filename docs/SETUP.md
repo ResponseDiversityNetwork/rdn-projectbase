@@ -7,7 +7,7 @@ Setup takes about an hour. It needs: admin rights on the RDN GitHub organisation
 1. Create `rdn-projectbase` in the `ResponseDiversityNetwork` organisation (public) and push this folder to it.
 2. The organisation (`ResponseDiversityNetwork`) and repository (`rdn-projectbase`) names are already filled in. If either changes, search for them in `README.md`, `site/_quarto.yml`, `site/_variables.yml`, `schema/project.schema.json` and `apps-script/Code.gs`.
 3. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
-4. **Settings → Actions → General → Workflow permissions: Read and write permissions.**
+4. Workflow permissions: nothing to change. The workflows declare their own permissions, so the read-only default (often greyed out at org level) is fine.
 5. Create the labels used by the pipeline:
    ```sh
    gh label create new-project     --color 0E8A16 --description "New project from the form - curator review"
