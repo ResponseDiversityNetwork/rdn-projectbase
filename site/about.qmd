@@ -1,0 +1,43 @@
+---
+title: "About & guidelines"
+---
+
+The RDN Projects register lets anyone share what they are doing on response diversity, and lets anyone browse those projects to find collaborators, data, or related work.
+
+It is a **register, not a project-management tool**: it records what a project is, its stage, and how to get involved. Notes, code and drafts belong in the project's own spaces.
+
+## What counts as a response diversity project?
+
+Any research, synthesis, method, dataset, or applied work concerned with how differently species, populations, or other units respond to environmental change — and what that means for stability, function, or management. You do not need to be an RDN member, and the project does not need to have come out of the RDN. If in doubt, list it.
+
+## Stages
+
+| Stage | Meaning |
+|---|---|
+| Idea - gauging interest | An idea; no defined plan yet. Open to input. |
+| Seeking collaborators | A defined plan, looking for particular people or expertise. |
+| In progress - open to collaborators | Work under way; people can still join. |
+| In progress - team set | Work under way; the team is complete. |
+| In review | Submitted for publication. |
+| Published | Output available (please add the DOI under links). |
+| Inactive | No longer being worked on — others are welcome to revive the idea (please contact the lead first). |
+
+## Authorship and credit
+
+We ask every project that is open to collaborators to state how authorship will be decided. The RDN does not prescribe a policy. Useful starting points are the [CRediT contributor roles](https://credit.niso.org/) and the [EFI examples of contribution types](https://github.com/eco4cast/efi-projects).
+
+## Ideas and priority
+
+Listing a project creates a public, dated record of the idea. If you would rather not share details yet, choose a **minimal listing**: only the title, lead, and stage are published.
+
+## What we ask {#what-we-ask}
+
+Project title · lead name, institution and (optionally) ORCID · email (kept private unless you choose to show it) · a short summary · which aspects of response diversity, organisms, ecosystems, drivers and approaches are involved · stage · contributions sought · authorship guidelines · timeline · links · listing type (full or minimal) · consent to publication.
+
+## Privacy
+
+Your email address is stored only in the RDN curators' private Google Sheet and is published only if you tick the box to show it. Everything published on this site is stored in a public GitHub repository, including its change history. You can update or remove your listing at any time; to have a listing purged from the history as well, email [{{< var curator_email >}}](mailto:{{< var curator_email >}}).
+
+## Acknowledgements
+
+This register is inspired by the [Ecological Forecasting Initiative's project register](https://github.com/eco4cast/efi-projects), which in turn drew on GLEON and Zarr-Python.

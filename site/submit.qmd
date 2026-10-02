@@ -1,0 +1,26 @@
+---
+title: "Share a project"
+---
+
+Anyone working on response diversity — RDN member or not — is welcome to list a project, at any stage from a first idea to a published paper.
+
+## How it works
+
+1. **Fill in the online form.** You can preview the questions first on the [About page](about.qmd#what-we-ask).
+
+   [Open the project form]({{< var form_url >}}){.btn .btn-primary}
+
+2. **Check your email.** You will receive a confirmation containing your **personal update link**. Keep it — it opens the form pre-filled with your answers.
+3. **Curator review.** An RDN curator checks new entries (usually within a week), then the project appears on the site.
+
+## Updating or removing a project
+
+Use the personal update link in your confirmation email, change what you need, and resubmit. Updates from that link appear on the site automatically within a few minutes. To remove a listing, tick *"Please remove this project from the site"* in the form.
+
+Lost the link, or changed email address? Write to [{{< var curator_email >}}](mailto:{{< var curator_email >}}) with your project ID.
+
+Comfortable with GitHub? You can also edit your project's file in [`projects/`]({{< var repo_url >}}/tree/main/projects) directly and open a pull request.
+
+## Once a year
+
+We will email you your update link once a year and ask whether the project is still active, so the register stays current.

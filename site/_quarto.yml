@@ -1,0 +1,34 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - data/projects.json
+
+website:
+  title: "RDN Projects"
+  description: "Response diversity projects shared by the Response Diversity Network community."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Browse projects
+      - href: submit.qmd
+        text: Share a project
+      - href: about.qmd
+        text: About & guidelines
+    right:
+      - icon: github
+        href: https://github.com/ResponseDiversityNetwork/rdn-projectbase
+  page-footer:
+    center: "Response Diversity Network · Project register · [Data (JSON)](data/projects.json)"
+
+language:
+  title-block-author-single: "Project lead"
+  title-block-published: "Last updated"
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    toc: false

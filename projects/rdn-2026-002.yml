@@ -1,0 +1,11 @@
+# EXAMPLE ENTRY - delete before launch. Shows a "minimal" listing:
+# because this repository is public, only the headline fields are stored.
+id: rdn-2026-002
+title: "EXAMPLE: A theory of response diversity across levels of organisation"
+lead:
+  name: "Another Example"
+  institution: "Example Institute"
+stage: "Idea - gauging interest"
+listing: minimal
+created: "2026-10-02"
+updated: "2026-10-02"

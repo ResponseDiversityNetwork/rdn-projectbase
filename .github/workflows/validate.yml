@@ -1,0 +1,52 @@
+name: Validate project files
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - "projects/**"
+      - "schema/**"
+      - "scripts/**"
+      - "site/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r scripts/requirements.txt
+      - name: Validate YAML against schema
+        run: python scripts/build_site.py --check
+
+  # Updates sent through a lead's personal update link (same email address) are
+  # merged without curator review. Only PRs from branches in this repository
+  # qualify, and only maintainers/the form script can add labels.
+  automerge:
+    needs: validate
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      contains(github.event.pull_request.labels.*.name, 'verified-update') &&
+      !contains(github.event.pull_request.labels.*.name, 'needs-review') &&
+      !contains(github.event.pull_request.labels.*.name, 'new-project')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Merge
+        run: gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
+      # Merges made with GITHUB_TOKEN don't trigger push workflows, so start publishing explicitly.
+      - name: Publish site
+        run: gh workflow run publish.yml --ref ${{ github.event.pull_request.base.ref }}

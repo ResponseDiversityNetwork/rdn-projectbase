@@ -1,0 +1,6 @@
+_site/
+.quarto/
+projects/
+data/
+
+/.quarto/

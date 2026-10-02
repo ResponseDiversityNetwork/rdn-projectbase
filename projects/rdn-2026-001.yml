@@ -1,0 +1,39 @@
+# EXAMPLE ENTRY - delete before launch.
+# Files in this folder are normally written by the Google Form pipeline;
+# GitHub users may also edit them directly via a pull request.
+id: rdn-2026-001
+title: "EXAMPLE: Does response diversity predict community recovery after heatwaves in freshwater mesocosms?"
+lead:
+  name: "Example Lead"
+  institution: "Example University"
+summary: >-
+  We are compiling results from heatwave experiments in freshwater mesocosms to test
+  whether the diversity of species' responses to temperature (measured as the spread of
+  response-curve slopes) predicts how quickly community biomass and composition recover.
+  We are looking for groups who have run comparable experiments and are willing to share data.
+response_diversity:
+  - "Response traits / functional response diversity"
+  - "Temporal (asynchrony, timing of responses)"
+organisms:
+  - "Phytoplankton / algae"
+  - "Invertebrates"
+ecosystems:
+  - "Freshwater"
+  - "Laboratory / mesocosm"
+drivers: "Heatwaves; temperature variability"
+approaches:
+  - "Synthesis / meta-analysis"
+  - "Laboratory or mesocosm experiment"
+stage: "Seeking collaborators"
+contributions_sought:
+  - "Data"
+  - "Analysis / statistics"
+authorship_guidelines: >-
+  Data contributors and anyone contributing to analysis or writing are invited as co-authors,
+  with roles described using the CRediT taxonomy.
+timeline: "Data call until March 2027; manuscript draft mid-2027"
+links:
+  - "https://example.org/heatwave-rd"
+listing: full
+created: "2026-10-01"
+updated: "2026-10-01"

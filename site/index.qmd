@@ -1,0 +1,25 @@
+---
+title: "Response diversity projects"
+subtitle: "Browse projects shared by the RDN community. Click a tag in the sidebar to filter, or search."
+listing:
+  id: projects
+  contents: projects
+  type: table
+  sort: "date desc"
+  fields: [title, author, stage, date]
+  field-display-names:
+    title: "Project"
+    author: "Lead"
+    stage: "Stage"
+    date: "Updated"
+  sort-ui: [title, author, stage, date]
+  filter-ui: true
+  categories: true
+  page-size: 50
+  date-format: "YYYY-MM-DD"
+---
+
+Want to list your own project? [Share a project](submit.qmd) — it takes about ten minutes.
+
+::: {#projects}
+:::

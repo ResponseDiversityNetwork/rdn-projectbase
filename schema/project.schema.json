@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ResponseDiversityNetwork/rdn-projectbase/schema/project.schema.json",
+  "title": "RDN project entry",
+  "description": "One response diversity project listed in the RDN Projects register. One YAML file per project in projects/, named <id>.yml. The controlled vocabularies below must stay in sync with apps-script/Code.gs (FORM_CHOICES).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "lead",
+    "stage",
+    "listing",
+    "created",
+    "updated"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^rdn-[0-9]{4}-[0-9]{3,}$",
+      "description": "Stable project ID, e.g. rdn-2026-001. Also the file name."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 250
+    },
+    "lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2
+        },
+        "institution": {
+          "type": "string"
+        },
+        "orcid": {
+          "type": "string",
+          "pattern": "^([0-9]{4}-){3}[0-9]{3}[0-9X]$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Only present if the lead chose to show their email publicly."
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 3000
+    },
+    "response_diversity": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Response traits / functional response diversity",
+          "Temporal (asynchrony, timing of responses)",
+          "Spatial",
+          "Intraspecific / genetic",
+          "Across levels of organisation",
+          "Conceptual / definitions",
+          "Other"
+        ]
+      }
+    },
+    "organisms": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Microbes",
+          "Phytoplankton / algae",
+          "Plants",
+          "Invertebrates",
+          "Vertebrates",
+          "Fungi",
+          "Multiple / whole communities",
+          "Not organism-specific",
+          "Other"
+        ]
+      }
+    },
+    "ecosystems": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Terrestrial",
+          "Freshwater",
+          "Marine",
+          "Agricultural",
+          "Urban",
+          "Laboratory / mesocosm",
+          "Not ecosystem-specific",
+          "Other"
+        ]
+      }
+    },
+    "drivers": {
+      "type": "string",
+      "description": "Environmental drivers / disturbances studied, free text."
+    },
+    "approaches": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Theory / modelling",
+          "Laboratory or mesocosm experiment",
+          "Field experiment",
+          "Observational / monitoring data",
+          "Synthesis / meta-analysis",
+          "Methods / software",
+          "Data compilation",
+          "Applied / management",
+          "Other"
+        ]
+      }
+    },
+    "stage": {
+      "enum": [
+        "Idea - gauging interest",
+        "Seeking collaborators",
+        "In progress - open to collaborators",
+        "In progress - team set",
+        "In review",
+        "Published",
+        "Inactive"
+      ]
+    },
+    "contributions_sought": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Data",
+          "Analysis / statistics",
+          "Modelling / theory",
+          "Field or lab work",
+          "Writing / editing",
+          "Specific system or taxon expertise",
+          "Funding / hosting",
+          "Other"
+        ]
+      }
+    },
+    "authorship_guidelines": {
+      "type": "string"
+    },
+    "timeline": {
+      "type": "string"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^https?://[^\\s<>\"]+$"
+      }
+    },
+    "listing": {
+      "enum": [
+        "full",
+        "minimal"
+      ],
+      "description": "full = show everything; minimal = only title, lead, stage and contact route. The repository is public, so for minimal listings the pipeline does not write the other details into the file at all."
+    },
+    "created": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "listing": {
+            "const": "full"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "summary"
+        ]
+      }
+    }
+  ]
+}
