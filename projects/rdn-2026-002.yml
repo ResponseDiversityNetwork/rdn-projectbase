@@ -1,11 +1,26 @@
-# EXAMPLE ENTRY - delete before launch. Shows a "minimal" listing:
-# because this repository is public, only the headline fields are stored.
-id: rdn-2026-002
-title: "EXAMPLE: A theory of response diversity across levels of organisation"
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-002"
+title: "Someone save me"
 lead:
-  name: "Another Example"
-  institution: "Example Institute"
-stage: "Idea - gauging interest"
-listing: minimal
-created: "2026-10-02"
-updated: "2026-10-02"
+  name: "Sam Ross"
+  institution: "Kyoto University"
+summary: "The new job is fairly admin heavy so far, so I am convening an RDN team to help me, ideally via collaborative consumption of alcoholic beverages..."
+response_diversity:
+  - "Other"
+organisms:
+  - "Not organism-specific"
+ecosystems:
+  - "Terrestrial"
+drivers: "stress (psychological)"
+approaches:
+  - "Laboratory or mesocosm experiment"
+  - "Data compilation"
+stage: "Seeking collaborators"
+contributions_sought:
+  - "Funding / hosting"
+authorship_guidelines: "it is open to anyone who can BYOB"
+timeline: "ASAP (or in December :) )"
+listing: full
+created: "2026-10-05"
+updated: "2026-10-05"
