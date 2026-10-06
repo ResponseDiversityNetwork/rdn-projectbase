@@ -1,0 +1,29 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-003"
+title: "Do trees have diverse responses to poking?"
+lead:
+  name: "Zeres"
+  institution: "CFS"
+  orcid: "0000-0003-4036-977X"
+summary: "Poke a tree a see what it does. Poke many trees and measure RD."
+response_diversity:
+  - "Response traits / functional response diversity"
+  - "Other"
+organisms:
+  - "Plants"
+ecosystems:
+  - "Terrestrial"
+drivers: "Poking"
+approaches:
+  - "Field experiment"
+stage: "Idea - gauging interest"
+contributions_sought:
+  - "Data"
+  - "Analysis / statistics"
+  - "Modelling / theory"
+authorship_guidelines: "Toss of a coin"
+timeline: "10 years"
+listing: full
+created: "2026-10-06"
+updated: "2026-10-06"
