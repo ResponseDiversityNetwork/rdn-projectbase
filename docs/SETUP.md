@@ -41,6 +41,8 @@ Setup takes about an hour. It needs: admin rights on the RDN GitHub organisation
 6. Put the form's public URL (or its `forms.gle` short link) and the curator email into `site/_variables.yml`, then commit. The site rebuilds automatically.
 7. Share the form and the registry sheet with the other curators (as editors), and keep the sheet private.
 
+**Forms created before tags were added:** after pasting the latest `Code.gs`, choose `addTagsQuestion` in the function dropdown and click **Run** once. It adds the *Tags (optional)* question after *Approach* (with its help text and format check) and updates the listing help text. Running it again only refreshes the help text.
+
 To change form wording later, edit the form directly in Google Forms. **Do not rename questions or choices** without also changing `ITEMS`/`FORM_CHOICES` in `Code.gs` and `schema/project.schema.json`, because the script matches answers by question title. New choices must be added in all three places.
 
 ## 3. Test before launch

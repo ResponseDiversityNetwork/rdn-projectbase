@@ -8,6 +8,8 @@ Anyone working on response diversity — RDN member or not — is welcome to lis
 
 1. **Fill in the online form.** You can preview the questions first on the [About page](about.qmd#what-we-ask).
 
+   If your project belongs to a network or programme, add tags such as `#ReDiLEEP #DC11`. Please [check the existing tags](tags.qmd) first and reuse one if it fits.
+
    [Open the project form]({{< var form_url >}}){.btn .btn-primary}
 
 2. **Check your email.** You will receive a confirmation containing your **personal update link**. Keep it — it opens the form pre-filled with your answers.

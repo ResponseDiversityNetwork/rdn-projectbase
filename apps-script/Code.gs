@@ -12,6 +12,8 @@
  *                         "needs-review" if the email address was changed.
  *      removal request -> pull request deleting the file ("removal" label).
  *  - sendAnnualReminders(): weekly; emails leads whose entry hasn't changed for a year.
+ *  - addTagsQuestion(): one-off upgrade that adds the "Tags" question to a form
+ *    created before tags existed. Run once by hand; safe to run again.
  *
  * The "personal update link" is the Google Forms edit-response URL. It opens the
  * form pre-filled with the lead's previous answers, needs no Google account, and
@@ -74,6 +76,22 @@ var LISTING_MINIMAL = 'Minimal listing - show only title, lead and stage';
 var YES_SHOW_EMAIL = 'Yes, show my email address on the project page';
 var CONSENT = 'I agree that the information I have provided (except my email address, unless I chose to show it) will be published on the RDN Projects website and stored in a public GitHub repository.';
 var REMOVE = 'Please remove this project from the site';
+var LISTING_HELP = 'A minimal listing publishes only the title, lead name/institution, stage and tags. The other details are kept only by the RDN curators.';
+
+// Tags: same rule as schema/project.schema.json (stored without the '#').
+var TAG_RE = /^[A-Za-z0-9][A-Za-z0-9_-]{0,39}$/;
+var TAGS_TITLE = 'Tags (optional)';
+// Form-side check: one or more tags separated by spaces or commas, '#' optional.
+var TAGS_FORM_PATTERN = '^[\\s,]*#?[A-Za-z0-9][A-Za-z0-9_-]{0,39}(([\\s,]+#?|[\\s,]*#)[A-Za-z0-9][A-Za-z0-9_-]{0,39})*[\\s,]*$';
+
+function tagsHelp_() {
+  var site = PropertiesService.getScriptProperties().getProperty('SITE_URL') || '';
+  return 'Tags link projects that belong to the same network, programme or initiative. ' +
+    'Type one or more, separated by spaces. Examples: #ReDiLEEP if the project is part of the ' +
+    'ReDiLEEP MSCA doctoral network; #ReDiLEEP #DC11 if it is also part of the doctoral project DC11. ' +
+    'PLEASE CHECK THE EXISTING TAGS FIRST at ' + site + 'tags.html and reuse one, spelled the same way, ' +
+    'if it fits. Only create a new tag if none fits. Letters, numbers, - and _ only.';
+}
 
 // key, type, title, required, help, choices
 var ITEMS = [
@@ -98,6 +116,8 @@ var ITEMS = [
   { key: 'drivers', type: 'text', title: 'Environmental drivers / disturbances',
     help: 'e.g. warming, drought, pesticides, fishing' },
   { key: 'approaches', type: 'checkbox', title: 'Approach', choices: FORM_CHOICES.approaches },
+  { key: 'tags', type: 'text', title: TAGS_TITLE, help: tagsHelp_, pattern: TAGS_FORM_PATTERN,
+    patternMessage: 'Use tags like #ReDiLEEP #DC11: letters, numbers, - and _ only, separated by spaces.' },
 
   { key: '_section_status', type: 'section', title: 'Status and collaboration' },
   { key: 'stage', type: 'list', title: 'Stage', required: true, choices: FORM_CHOICES.stage },
@@ -112,7 +132,7 @@ var ITEMS = [
   { key: '_section_publish', type: 'section', title: 'Publication on the site' },
   { key: 'listing', type: 'multiple', title: 'How much should be shown?', required: true,
     choices: [LISTING_FULL, LISTING_MINIMAL],
-    help: 'A minimal listing publishes only the title, lead name/institution and stage. The other details are kept only by the RDN curators.' },
+    help: LISTING_HELP },
   { key: 'consent', type: 'checkbox', title: 'Consent', required: true, choices: [CONSENT] },
   { key: 'remove', type: 'checkbox', title: 'Remove listing (only when updating)', choices: [REMOVE],
     help: 'Tick only if you are using your update link and want the project taken off the site.' }
@@ -142,36 +162,7 @@ function setup() {
     'Thank you! Check your inbox for a confirmation email containing your personal update link. ' +
     'New entries are reviewed by an RDN curator before they appear on the site.');
 
-  ITEMS.forEach(function (it) {
-    var item;
-    switch (it.type) {
-      case 'section': item = form.addSectionHeaderItem(); break;
-      case 'text': item = form.addTextItem(); break;
-      case 'email':
-        item = form.addTextItem();
-        item.setValidation(FormApp.createTextValidation().requireTextIsEmail().build());
-        break;
-      case 'paragraph': item = form.addParagraphTextItem(); break;
-      case 'checkbox': item = form.addCheckboxItem().setChoiceValues(it.choices); break;
-      case 'list': item = form.addListItem().setChoiceValues(it.choices); break;
-      case 'multiple': item = form.addMultipleChoiceItem().setChoiceValues(it.choices); break;
-    }
-    // Length limits mirror schema/project.schema.json so the form can't produce invalid files.
-    if (it.minLength && (it.type === 'text' || it.type === 'paragraph')) {
-      var msg = 'Please enter between ' + it.minLength + ' and ' + it.maxLength + ' characters.';
-      var v = it.type === 'text' ? FormApp.createTextValidation() : FormApp.createParagraphTextValidation();
-      if (it.type === 'paragraph') {
-        v.requireTextLengthGreaterThanOrEqualTo(it.minLength).setHelpText(msg);
-        item.setValidation(v.build());
-      } else {
-        v.requireTextMatchesPattern('^[\\s\\S]{' + it.minLength + ',' + it.maxLength + '}$').setHelpText(msg);
-        item.setValidation(v.build());
-      }
-    }
-    item.setTitle(it.title);
-    if (it.help) item.setHelpText(it.help);
-    if (it.required && item.setRequired) item.setRequired(true);
-  });
+  ITEMS.forEach(function (it) { createItem_(form, it); });
 
   var ss = SpreadsheetApp.create('RDN Projects registry (PRIVATE)');
   var reg = ss.getSheets()[0].setName('registry');
@@ -192,6 +183,70 @@ function setup() {
   Logger.log('Form (edit):   ' + form.getEditUrl());
   Logger.log('Form (public): ' + form.getPublishedUrl());
   Logger.log('Registry:      ' + ss.getUrl());
+}
+
+/** Adds one ITEMS entry to the form, with its help text and validation. */
+function createItem_(form, it) {
+  var item;
+  switch (it.type) {
+    case 'section': item = form.addSectionHeaderItem(); break;
+    case 'text': item = form.addTextItem(); break;
+    case 'email':
+      item = form.addTextItem();
+      item.setValidation(FormApp.createTextValidation().requireTextIsEmail().build());
+      break;
+    case 'paragraph': item = form.addParagraphTextItem(); break;
+    case 'checkbox': item = form.addCheckboxItem().setChoiceValues(it.choices); break;
+    case 'list': item = form.addListItem().setChoiceValues(it.choices); break;
+    case 'multiple': item = form.addMultipleChoiceItem().setChoiceValues(it.choices); break;
+  }
+  // Length limits mirror schema/project.schema.json so the form can't produce invalid files.
+  if (it.minLength && (it.type === 'text' || it.type === 'paragraph')) {
+    var msg = 'Please enter between ' + it.minLength + ' and ' + it.maxLength + ' characters.';
+    if (it.type === 'paragraph') {
+      item.setValidation(FormApp.createParagraphTextValidation()
+        .requireTextLengthGreaterThanOrEqualTo(it.minLength).setHelpText(msg).build());
+    } else {
+      item.setValidation(FormApp.createTextValidation()
+        .requireTextMatchesPattern('^[\\s\\S]{' + it.minLength + ',' + it.maxLength + '}$')
+        .setHelpText(msg).build());
+    }
+  }
+  if (it.pattern) {
+    item.setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern(it.pattern).setHelpText(it.patternMessage || 'Invalid format').build());
+  }
+  item.setTitle(it.title);
+  var help = typeof it.help === 'function' ? it.help() : it.help;
+  if (help) item.setHelpText(help);
+  if (it.required && item.setRequired) item.setRequired(true);
+  return item;
+}
+
+/**
+ * One-off upgrade for forms created before tags existed: adds the Tags question
+ * after "Approach" and updates the listing help text. Safe to run more than once.
+ */
+function addTagsQuestion() {
+  var form = FormApp.openById(PropertiesService.getScriptProperties().getProperty('FORM_ID'));
+  var items = form.getItems();
+  var exists = items.some(function (i) { return i.getTitle() === TAGS_TITLE; });
+  if (!exists) {
+    var spec = ITEMS.filter(function (it) { return it.key === 'tags'; })[0];
+    var item = createItem_(form, spec);           // added at the end of the form...
+    var approach = -1;
+    form.getItems().forEach(function (i, idx) { if (i.getTitle() === 'Approach') approach = idx; });
+    if (approach >= 0) form.moveItem(item.getIndex(), approach + 1);   // ...then moved after "Approach"
+    Logger.log('Added the Tags question.');
+  } else {
+    Logger.log('Tags question already present; help text refreshed.');
+    items.forEach(function (i) {
+      if (i.getTitle() === TAGS_TITLE) i.setHelpText(tagsHelp_());
+    });
+  }
+  form.getItems().forEach(function (i) {
+    if (i.getTitle() === 'How much should be shown?') i.setHelpText(LISTING_HELP);
+  });
 }
 
 // ---------------------------------------------------------------- submission handler
@@ -235,6 +290,7 @@ function handleResponse_(response) {
 
   var path = 'projects/' + projectId + '.yml';
   var notes = [];
+  if (!removal) answers.tagList = parseTags_(answers.tags, existingTags_(), notes);
   var yaml = removal ? null : buildYaml_(projectId, answers, created, today, notes);
 
   // Re-use an open PR for this project if there is one, so edits don't conflict.
@@ -322,6 +378,7 @@ function buildYaml_(projectId, a, created, updated, notes) {
     if (a.drivers) lines.push('drivers: ' + q_(a.drivers));
     list_(lines, 'approaches', a.approaches);
   }
+  list_(lines, 'tags', a.tagList || parseTags_(a.tags, [], notes));
   lines.push('stage: ' + q_(a.stage));
   if (!minimal) {
     list_(lines, 'contributions_sought', a.contributions_sought);
@@ -342,6 +399,43 @@ function buildYaml_(projectId, a, created, updated, notes) {
   lines.push('created: ' + q_(created));
   lines.push('updated: ' + q_(updated));
   return lines.join('\n') + '\n';
+}
+
+/**
+ * "#ReDiLEEP #DC11" -> ["ReDiLEEP", "DC11"]. Spaces or commas separate tags; '#' is optional.
+ * A tag matching an existing one apart from upper/lower case takes the existing spelling,
+ * so "#redileep" joins the existing "#ReDiLEEP" group. Invalid or new tags are noted for curators.
+ */
+function parseTags_(text, existing, notes) {
+  var byLower = {};
+  (existing || []).forEach(function (t) { byLower[t.toLowerCase()] = t; });
+  var out = [], seen = {}, bad = [], fresh = [];
+  String(text || '').split(/[\s,;#]+/).forEach(function (raw) {
+    var t = raw.trim();
+    if (!t) return;
+    if (!TAG_RE.test(t)) { bad.push(raw); return; }
+    var key = t.toLowerCase();
+    if (seen[key]) return;
+    seen[key] = true;
+    if (byLower[key]) t = byLower[key];
+    else fresh.push('#' + t);
+    out.push(t);
+  });
+  if (bad.length) notes.push('Tags omitted (invalid): ' + bad.join(', '));
+  if (fresh.length && existing && existing.length) notes.push('New tag(s), please check they are not near-duplicates of existing tags: ' + fresh.join(' '));
+  return out;
+}
+
+/** Existing tags, read from the published site (site/data/tags.json). Empty list on any failure. */
+function existingTags_() {
+  try {
+    var site = PropertiesService.getScriptProperties().getProperty('SITE_URL') || '';
+    var res = UrlFetchApp.fetch(site.replace(/\/?$/, '/') + 'data/tags.json', { muteHttpExceptions: true });
+    if (res.getResponseCode() !== 200) return [];
+    return JSON.parse(res.getContentText()).map(function (r) { return r.tag; });
+  } catch (err) {
+    return [];
+  }
 }
 
 /** JSON strings are valid YAML double-quoted scalars. */

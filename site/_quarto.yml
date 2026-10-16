@@ -3,6 +3,7 @@ project:
   output-dir: _site
   resources:
     - data/projects.json
+    - data/tags.json
 
 website:
   title: "RDN Projects"
@@ -11,6 +12,8 @@ website:
     left:
       - href: index.qmd
         text: Browse projects
+      - href: tags.qmd
+        text: Tags
       - href: submit.qmd
         text: Share a project
       - href: about.qmd

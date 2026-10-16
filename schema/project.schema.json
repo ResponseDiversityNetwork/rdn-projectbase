@@ -124,6 +124,15 @@
         ]
       }
     },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Free-form tags linking projects to a network, programme or initiative (e.g. ReDiLEEP, DC11). Stored without the leading '#'. Letters, digits, '-' and '_' only, starting with a letter or digit, max 40 characters.",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,39}$"
+      }
+    },
     "stage": {
       "enum": [
         "Idea - gauging interest",
@@ -169,7 +178,7 @@
         "full",
         "minimal"
       ],
-      "description": "full = show everything; minimal = only title, lead, stage and contact route. The repository is public, so for minimal listings the pipeline does not write the other details into the file at all."
+      "description": "full = show everything; minimal = only title, lead, stage, tags and contact route. The repository is public, so for minimal listings the pipeline does not write the other details into the file at all."
     },
     "created": {
       "type": "string",

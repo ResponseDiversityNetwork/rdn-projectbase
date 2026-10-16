@@ -4,7 +4,8 @@
 Usage:
     python scripts/build_site.py --check   # validate only (used on pull requests)
     python scripts/build_site.py           # validate, then write site/projects/*.qmd
-                                           # and site/data/projects.json
+                                           # site/tags.qmd, site/data/projects.json
+                                           # and site/data/tags.json
 
 Run from the repository root.
 """
@@ -15,6 +16,7 @@ import json
 import shutil
 import sys
 from pathlib import Path
+from urllib.parse import quote
 
 import yaml
 from jsonschema import Draft202012Validator, FormatChecker
@@ -25,6 +27,7 @@ SCHEMA_PATH = ROOT / "schema" / "project.schema.json"
 SITE_DIR = ROOT / "site"
 OUT_DIR = SITE_DIR / "projects"
 DATA_DIR = SITE_DIR / "data"
+TAGS_PAGE = SITE_DIR / "tags.qmd"
 
 # Short labels used as Quarto categories (clickable filters on the listing page).
 STAGE_SHORT = {
@@ -71,6 +74,24 @@ def validate(projects: list[tuple[Path, dict]]) -> list[str]:
             errors.append(f"{path.name}: duplicate id '{pid}' (also in {seen[pid].name})")
         elif pid:
             seen[pid] = path
+    # Tags must be spelled consistently: "ReDiLEEP" and "redileep" would split one group in two.
+    spellings: dict[str, tuple[str, str]] = {}
+    for path, data in projects:
+        seen_here: set[str] = set()
+        for tag in data.get("tags") or []:
+            if not isinstance(tag, str):
+                continue
+            key = tag.lower()
+            if key in seen_here:
+                errors.append(f"{path.name}: tags: '{tag}' is listed twice (tags are not case-sensitive)")
+            seen_here.add(key)
+            if key in spellings and spellings[key][0] != tag:
+                first, where = spellings[key]
+                errors.append(
+                    f"{path.name}: tags: '{tag}' is spelled differently from '{first}' in {where}; "
+                    f"use the same spelling"
+                )
+            spellings.setdefault(key, (tag, path.name))
     for path in PROJECTS_DIR.iterdir():
         if path.is_file() and path.suffix != ".yml" and path.name != ".gitkeep":
             errors.append(f"{path.name}: unexpected file in projects/ (use .yml)")
@@ -80,6 +101,15 @@ def validate(projects: list[tuple[Path, dict]]) -> list[str]:
 def esc(s: str) -> str:
     """Neutralise raw HTML in user-supplied text (entries can be auto-merged)."""
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def tag_label(tag: str) -> str:
+    return f"#{tag}"
+
+
+def tag_href(tag: str, prefix: str = "") -> str:
+    """Link to the browse page filtered to one tag (Quarto category filter)."""
+    return f"{prefix}index.html#category={quote(tag_label(tag), safe='')}"
 
 
 def yaml_str(s: str) -> str:
@@ -103,6 +133,8 @@ def render_page(p: dict, contact_email: str) -> str:
         categories += p.get("organisms", [])
         categories += p.get("ecosystems", [])
     categories = [c for c in categories if c != "Other"]
+    # Tags are shown for full and minimal listings alike.
+    categories += [tag_label(t) for t in p.get("tags", [])]
 
     lead = p["lead"]
     summary = p.get("summary", "") if full else ""
@@ -114,6 +146,7 @@ def render_page(p: dict, contact_email: str) -> str:
         f"date: {p['updated']}",
         f"stage: {yaml_str(stage)}",
         f"project-id: {yaml_str(p['id'])}",
+        f"tags-text: {yaml_str(' '.join(tag_label(t) for t in p.get('tags', [])))}",
         "categories:",
         *[f"  - {yaml_str(c)}" for c in categories],
         "---",
@@ -128,6 +161,9 @@ def render_page(p: dict, contact_email: str) -> str:
     if lead.get("orcid"):
         lead_line += f" ([ORCID](https://orcid.org/{lead['orcid']}))"
     meta.append(f"**Lead:** {lead_line}")
+    if p.get("tags"):
+        links = " ".join(f"[{tag_label(t)}]({tag_href(t, '../')})" for t in p["tags"])
+        meta.append(f"**Tags:** {links}")
     meta.append(f"**First listed:** {p['created']}")
     body.append("  \n".join(meta))
     body.append("")
@@ -168,6 +204,35 @@ def render_page(p: dict, contact_email: str) -> str:
     return "\n".join(fm + body)
 
 
+def render_tags_page(projects: list[dict]) -> tuple[str, list[dict]]:
+    counts: dict[str, int] = {}
+    for p in projects:
+        for t in p.get("tags", []):
+            counts[t] = counts.get(t, 0) + 1
+    tags = sorted(counts, key=str.lower)
+    rows = [{"tag": t, "projects": counts[t]} for t in tags]
+    lines = [
+        "---",
+        'title: "Tags"',
+        "---",
+        "",
+        "Tags group projects that belong to the same network, programme or initiative, "
+        "for example `#ReDiLEEP` for projects in the ReDiLEEP MSCA doctoral network, "
+        "plus `#DC11` for its doctoral project DC11. A project can have several tags.",
+        "",
+        "**Before adding a new tag in the form, please check this list and reuse an existing tag "
+        "if one fits**, spelled exactly as shown. New tags are welcome when nothing fits.",
+        "",
+    ]
+    if rows:
+        lines += ["| Tag | Projects |", "|---|---:|"]
+        lines += [f"| [{tag_label(r['tag'])}]({tag_href(r['tag'])}) | {r['projects']} |" for r in rows]
+    else:
+        lines.append("*No tags have been used yet.*")
+    lines.append("")
+    return "\n".join(lines), rows
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="validate only")
@@ -196,6 +261,11 @@ def main() -> int:
     for _, p in projects:
         (OUT_DIR / f"{p['id']}.qmd").write_text(render_page(p, contact_email), encoding="utf-8")
         public.append(p)
+    tags_md, tag_rows = render_tags_page(public)
+    TAGS_PAGE.write_text(tags_md, encoding="utf-8")
+    (DATA_DIR / "tags.json").write_text(
+        json.dumps(tag_rows, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     (DATA_DIR / "projects.json").write_text(
         json.dumps(public, indent=2, ensure_ascii=False), encoding="utf-8"
     )

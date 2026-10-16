@@ -22,17 +22,23 @@ Any research, synthesis, method, dataset, or applied work concerned with how dif
 | Published | Output available (please add the DOI under links). |
 | Inactive | No longer being worked on — others are welcome to revive the idea (please contact the lead first). |
 
+## Tags
+
+Tags link projects that belong to the same network, programme or initiative. For example, a project in the ReDiLEEP MSCA doctoral network can be tagged `#ReDiLEEP`, and one that is also part of its doctoral project DC11 can be tagged `#ReDiLEEP #DC11`. A project can have as many tags as needed.
+
+Before creating a new tag, please check the [existing tags](tags.qmd) and reuse one, spelled the same way, if it fits. Tags may contain letters, numbers, `-` and `_`. Tags are shown for both full and minimal listings.
+
 ## Authorship and credit
 
 We ask every project that is open to collaborators to state how authorship will be decided. The RDN does not prescribe a policy. Useful starting points are the [CRediT contributor roles](https://credit.niso.org/) and the [EFI examples of contribution types](https://github.com/eco4cast/efi-projects).
 
 ## Ideas and priority
 
-Listing a project creates a public, dated record of the idea. If you would rather not share details yet, choose a **minimal listing**: only the title, lead, and stage are published.
+Listing a project creates a public, dated record of the idea. If you would rather not share details yet, choose a **minimal listing**: only the title, lead, stage and tags are published.
 
 ## What we ask {#what-we-ask}
 
-Project title · lead name, institution and (optionally) ORCID · email (kept private unless you choose to show it) · a short summary · which aspects of response diversity, organisms, ecosystems, drivers and approaches are involved · stage · contributions sought · authorship guidelines · timeline · links · listing type (full or minimal) · consent to publication.
+Project title · lead name, institution and (optionally) ORCID · email (kept private unless you choose to show it) · a short summary · which aspects of response diversity, organisms, ecosystems, drivers and approaches are involved · tags (optional) · stage · contributions sought · authorship guidelines · timeline · links · listing type (full or minimal) · consent to publication.
 
 ## Privacy
 
