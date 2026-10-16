@@ -47,3 +47,21 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Ask the main RDN website to rebuild so its copy of the register stays current.
+  # Needs a repository secret WEBSITE_DISPATCH_TOKEN (see docs/SETUP.md). Without
+  # it this job does nothing, and the website still catches up once a day.
+  notify-website:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Trigger RDN-website rebuild
+        env:
+          GH_TOKEN: ${{ secrets.WEBSITE_DISPATCH_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "WEBSITE_DISPATCH_TOKEN not set; skipping."
+            exit 0
+          fi
+          gh api repos/ResponseDiversityNetwork/RDN-website/dispatches -f event_type=projectbase-updated

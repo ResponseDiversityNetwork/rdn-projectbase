@@ -22,6 +22,10 @@ Setup takes about an hour. It needs: admin rights on the RDN GitHub organisation
      - **Repository access:** `rdn-projectbase` only.
      - **Permissions:** *Contents*, *Pull requests* and *Issues*, each set to read & write.
    - Tokens expire, so put the expiry date in the curators' calendar.
+8. **Let the main RDN website rebuild when projects change (optional).** The RDN website ([RDN-website](https://github.com/ResponseDiversityNetwork/RDN-website)) shows a copy of this register under *Resources*. It rebuilds once a day on its own. To have it rebuild within minutes of each change:
+   - Make a second fine-grained token. **Resource owner:** the RDN org. **Repository access:** `RDN-website` only. **Permissions:** *Contents* read & write (needed to send a "repository dispatch").
+   - In this repository: **Settings → Secrets and variables → Actions → New repository secret**, named `WEBSITE_DISPATCH_TOKEN`, with the token as its value.
+   - The `notify-website` job in `.github/workflows/publish.yml` then pings the website after every publish. Without the secret, the job is skipped and nothing breaks.
 
 ## 2. Google Form and Apps Script
 
