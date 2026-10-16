@@ -1,0 +1,22 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-004"
+title: "Test ReDiLEEP DC11 Project 1"
+lead:
+  name: "me"
+summary: "Project about response diversity and policy"
+response_diversity:
+  - "Response traits / functional response diversity"
+  - "Other"
+organisms:
+  - "Microbes"
+  - "Multiple / whole communities"
+ecosystems:
+  - "Terrestrial"
+tags:
+  - "ReDiLEEP"
+  - "DC11"
+stage: "Idea - gauging interest"
+listing: full
+created: "2026-10-16"
+updated: "2026-10-16"
