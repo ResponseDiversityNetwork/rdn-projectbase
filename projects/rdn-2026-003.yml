@@ -1,0 +1,24 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-003"
+title: "Response diversity and slow environment exposure combine to explain and predict community stability"
+lead:
+  name: "Owen Petchey"
+  institution: "University of Zurich"
+  orcid: "0000-0002-7724-1633"
+summary: "We use simulated communities to ask when response diversity, the differences among species in how they respond to environmental change, stabilises community biomass. We show that this depends on how much environmental variation is slow relative to the community's own response times, which we call slow environment exposure."
+response_diversity:
+  - "Response traits / functional response diversity"
+  - "Conceptual / definitions"
+organisms:
+  - "Not organism-specific"
+ecosystems:
+  - "Not ecosystem-specific"
+drivers: "Temperature"
+approaches:
+  - "Theory / modelling"
+stage: "In progress - team set"
+timeline: "Submission mid January 2027"
+listing: full
+created: "2026-11-18"
+updated: "2026-11-18"
