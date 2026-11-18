@@ -1,0 +1,23 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-001"
+title: "Deriving zooplankton response diversity from SDMs"
+lead:
+  name: "Sam Ross"
+  institution: "Kyoto University"
+summary: "In this project we use empirical data on zooplankton communities in reservoirs across Japan to first derive species distribution models and link species occurrence probability to environmental variables. We then simulate species extinctions on these communities and ask whether the response diversity of these communities to various environmental variables can predict reductions in functional diversity and functional \"robustness\"."
+response_diversity:
+  - "Spatial"
+  - "Other"
+organisms:
+  - "Invertebrates"
+ecosystems:
+  - "Freshwater"
+drivers: "Temperature, land use characteristics, predation pressure"
+approaches:
+  - "Observational / monitoring data"
+  - "Data compilation"
+stage: "In review"
+listing: full
+created: "2026-11-18"
+updated: "2026-11-18"
