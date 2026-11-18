@@ -1,0 +1,41 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-004"
+title: "Response diversity and the persistence of farmer-managed cardamom agroforestry in the eastern Himalaya"
+lead:
+  name: "Hom Nath Khatiwada"
+  email: "cognition.nepal@gmail.com"
+summary: "Large cardamom grown under Alnus nepalensis canopy is a long-standing, multi-species agroforestry system in eastern Nepal and a major source of household income. Farmers report that cardamom performance is declining, even under canopy, and that production is moving to open land, while some households diversify their livelihoods and others abandon formerly productive land. This coupled social-ecological project asks whether variation in how the system’s components (plants, soil microbes, insects, patches and households) respond to shared gradients helps explain why some farms persist and others do not. The gradients we plan to use are canopy openness (light and heat exposure), soil conditions, disease and insect pressure, and market change. The functions of interest are cardamom production and household livelihood stability. We also ask how farmers update their management as evidence accumulates from their own experience, from other people, and from digital climate and market information, and how that updating shapes patch diversity. Fieldwork, including farmer perceptions, soil and tree measurements and linked plot data, is continuing as a pilot. Infrastructure for deeper study is limited, and we are seeking collaborators to help ground the work in response diversity theory and methods."
+response_diversity:
+  - "Response traits / functional response diversity"
+  - "Spatial"
+  - "Intraspecific / genetic"
+  - "Across levels of organisation"
+organisms:
+  - "Microbes"
+  - "Plants"
+  - "Fungi"
+  - "Multiple / whole communities"
+ecosystems:
+  - "Terrestrial"
+  - "Agricultural"
+  - "Laboratory / mesocosm"
+drivers: "canopy loos and land use change, climate and temperature, soil conditions, disease and insect pests, market change, information"
+approaches:
+  - "Theory / modelling"
+  - "Laboratory or mesocosm experiment"
+  - "Field experiment"
+  - "Observational / monitoring data"
+  - "Methods / software"
+  - "Data compilation"
+stage: "In progress - open to collaborators"
+contributions_sought:
+  - "Data"
+  - "Analysis / statistics"
+  - "Modelling / theory"
+  - "Field or lab work"
+  - "Funding / hosting"
+authorship_guidelines: "Authorship will follow the CRediT contributor roles and will be discussed openly with any collaborator at the start."
+listing: full
+created: "2026-11-18"
+updated: "2026-11-18"
