@@ -1,0 +1,23 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-002"
+title: "Floating macrophyte response diversity - stability mesocosm experiment"
+lead:
+  name: "Sam Ross"
+  institution: "Kyoto University"
+summary: "We conducted a large mesocosm experiment with all combinations of 4 species of floating aquatic macrophytes. We exposed them to different nitrate concentrations and derived growth responses, then used response diversity per mesocosm as a predictor of temporal stability, and also resistance in response to an exogenous disturbance (a large typhoon)."
+response_diversity:
+  - "Temporal (asynchrony, timing of responses)"
+organisms:
+  - "Plants"
+ecosystems:
+  - "Freshwater"
+drivers: "Nitrogen stress"
+approaches:
+  - "Laboratory or mesocosm experiment"
+stage: "In review"
+links:
+  - "https://doi.org/10.64898/2026.06.10.731482"
+listing: full
+created: "2026-11-17"
+updated: "2026-11-18"
