@@ -1,0 +1,29 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-005"
+title: "Community performance curves predict temporal stability despite interaction effects"
+lead:
+  name: "Francesco Polazzo"
+  institution: "University of Zurich"
+  orcid: "0000-0003-2092-5011"
+  email: "francesco.polazzo@uzh.ch"
+summary: "This project asks whether species’ environmental responses can predict the temporal stability of whole communities, even when interactions among species are strong or poorly known. We develop community performance curves (CPCs) by aggregating species-specific performance across environmental conditions. Evaluating these curves under fluctuating temperatures provides a prediction of how variable community performance should be through time.\n\nWe combine two complementary modelling approaches—Lotka–Volterra competition and mechanistic consumer–resource models—with a controlled experiment using aquatic ciliates. The simulations test how interaction strength, resource sharing and community composition affect predictive accuracy. In the experiment, independently measured thermal performance curves guide the selection of communities, allowing us to test whether CPCs predict subsequent fluctuations in total biomass. We compare these predictions with those based on species richness and conventional trait summaries.\n\nWe aim to produce a validated framework for forecasting community stability from measurable species responses, clarify when detailed interaction information is necessary, and provide a research paper, open data and reproducible code to support applications in other ecological systems."
+response_diversity:
+  - "Temporal (asynchrony, timing of responses)"
+  - "Conceptual / definitions"
+organisms:
+  - "Microbes"
+ecosystems:
+  - "Freshwater"
+drivers: "temperature fluctuations"
+approaches:
+  - "Theory / modelling"
+  - "Laboratory or mesocosm experiment"
+stage: "In review"
+authorship_guidelines: "authorship has been decided"
+timeline: "Published early 2027"
+links:
+  - "https://www.biorxiv.org/content/10.64898/2026.03.27.714753v3"
+listing: full
+created: "2026-11-19"
+updated: "2026-11-19"
