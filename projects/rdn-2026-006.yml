@@ -1,0 +1,22 @@
+# Written by the RDN Projects form. Edits via GitHub pull request are welcome,
+# but the next form update from the lead will overwrite this file.
+id: "rdn-2026-006"
+title: "Future projections of biodiversity under global change need to include response diversity"
+lead:
+  name: "Maura Ganz"
+  institution: "University of Zurich, Departement of Environmental and Evolutionary Sciences, Predictive Ecology Group"
+  orcid: "0009-0005-5183-0498"
+summary: "A perspective article that is the first of six connected activities to bring response diversity into biodiversity monitoring, assessment, and projections. It argues that current policy targets for biodiversity resilience to climate change cannot be met without forward-looking predictors of ecosystem stability.\n\nCurrent biodiversity indicators describe state but provide limited information on how functionally relevant species will respond to change. Response diversity provides a mechanistic link between biodiversity and the stability of ecosystem functioning. Recent methodological developments and empirical validation increasingly make it possible to quantify response diversity from traits, performance–environment relationships, and time series, and translate it into decision-relevant estimates of ecosystem stability.\n\nWe identify the forecasting and policy gap, explain why response diversity matters and has been difficult to operationalize, and outline priorities for its development and application. The need for predictive indicators of ecosystem stability and associated risks extends beyond conservation policy, as businesses and financial actors also seek decision-ready metrics. Coordinated comparison, validation, and translation into decision-relevant indicators will be addressed in subsequent activities."
+response_diversity:
+  - "Conceptual / definitions"
+ecosystems:
+  - "Not ecosystem-specific"
+drivers: "Not driver- / disturbance-specific"
+approaches:
+  - "Synthesis / meta-analysis"
+  - "Other"
+stage: "In review"
+timeline: "Expected publication in January (hopefully)"
+listing: full
+created: "2026-11-23"
+updated: "2026-11-23"
